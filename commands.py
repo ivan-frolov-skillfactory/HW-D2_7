@@ -1,4 +1,4 @@
-(env) PS D:\SK_DEV\D2.7HW\NewsPaper> 
+# (env) PS D:\SK_DEV\D2.7HW\NewsPaper> 
 py manage.py makemigrations
 py manage.py migrate
 py manage.py shell 

@@ -1,0 +1,67 @@
+(env) PS D:\SK_DEV\D2.7HW\NewsPaper> 
+py manage.py makemigrations
+py manage.py migrate
+py manage.py shell 
+from news.models import *
+user1 = User.objects.create(username='Ivanov', first_name='Ivan')
+Author.objects.create(authorUser=user1)
+user2 = User.objects.create(username='Sidorov', first_name='Sergey')
+Author.objects.create(authorUser=user2)
+Category.objects.create(name='Hockey')
+Category.objects.create(name='Football')
+Category.objects.create(name='Basketball')
+Category.objects.create(name='New')
+Post.objects.create(author=Author.objects.get(authorUser=User.objects.get(username='Ivanov')), categoryType='NW', title='first title', text='first text')
+Post.objects.create(author=Author.objects.get(authorUser=User.objects.get(username='Ivanov')), categoryType='AR', title='second title', text='second text')
+Post.objects.create(author=Author.objects.get(authorUser=User.objects.get(username='Sidorov')), categoryType='NW', title='third title', text='third text')
+Post.objects.create(author=Author.objects.get(authorUser=User.objects.get(username='Sidorov')), categoryType='AR', title='fourth title', text='fourth text')
+p1 = Post.objects.get(pk=1)
+p2 = Post.objects.get(pk=2)
+p3 = Post.objects.get(pk=3)
+p4 = Post.objects.get(pk=4)
+c1 = Category.objects.get(name='Hockey')
+c2 = Category.objects.get(name='Football')
+c3 = Category.objects.get(name='Basketball')
+c4 = Category.objects.get(name='New')
+p1.postCategory.add(c1)
+p2.postCategory.add(c1, c2, c3, c4)
+p3.postCategory.add(c3, c2)
+p4.postCategory.add(c4)
+Comment.objects.create(commentUser=User.objects.get(username='Ivanov'), commentPost = Post.objects.get(pk=1), text='comment text1')
+Comment.objects.create(commentUser=User.objects.get(username='Sidorov'), commentPost = Post.objects.get(pk=1), text='comment text2')
+Comment.objects.create(commentUser=User.objects.get(username='Ivanov'), commentPost = Post.objects.get(pk=2), text='comment text1')
+Comment.objects.create(commentUser=User.objects.get(username='Sidorov'), commentPost = Post.objects.get(pk=3), text='comment text1')
+Comment.objects.create(commentUser=User.objects.get(username='Sidorov'), commentPost = Post.objects.get(pk=4), text='comment text1')
+Post.objects.get(pk=1).like()
+Post.objects.get(pk=1).like()
+Post.objects.get(pk=1).like()
+Post.objects.get(pk=1).like()
+Post.objects.get(pk=2).like()
+Post.objects.get(pk=2).like()
+Post.objects.get(pk=2).like()
+Post.objects.get(pk=2).like()
+Post.objects.get(pk=3).like()
+Post.objects.get(pk=3).like()
+Post.objects.get(pk=4).dislike()
+Post.objects.get(pk=2).dislike()
+Post.objects.get(pk=1).dislike()
+Comment.objects.get(pk=1).like()
+Comment.objects.get(pk=1).like()
+Comment.objects.get(pk=1).dislike()
+Comment.objects.get(pk=2).like()
+Comment.objects.get(pk=2).like()
+Comment.objects.get(pk=2).like()
+Comment.objects.get(pk=2).dislike()
+Comment.objects.get(pk=3).like()
+Author.objects.get(authorUser = User.objects.get(username="Ivanov")).update_rating()
+Author.objects.get(authorUser = User.objects.get(username="Sidorov")).update_rating()
+a = Author.objects.get(authorUser = User.objects.get(username="Ivanov"))
+b = Author.objects.get(authorUser = User.objects.get(username="Sidorov"))
+a.ratingAuthor
+b.ratingAuthor
+Author.objects.get(authorUser = User.objects.get(username="Ivanov")).ratingAuthor
+best = Author.objects.all().order_by('-ratingAuthor').values('authorUser', 'ratingAuthor') [0]
+print(best)
+
+
+
